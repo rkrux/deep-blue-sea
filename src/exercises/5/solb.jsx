@@ -20,7 +20,6 @@ function cacheReducer(currentCache, action) {
 }
 function CacheProvider({ children }) {
 	const [cache, dispatch] = useReducer(cacheReducer, {});
-	// console.log('CacheProvider, cache: ', cache);
 	return (
 		<CacheContext.Provider value={[cache, dispatch]}>
 			{children}
