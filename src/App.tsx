@@ -10,6 +10,7 @@ import {
 	Seven,
 	ComingSoon,
 	Eight,
+	Testing,
 } from './exercises';
 import './App.css';
 
@@ -92,6 +93,10 @@ const exerciseConfigs: ExerciseConfig[] = [
 	{
 		title: 'Optimized rendering of large lists of items with React-Virtual',
 		implementation: <ComingSoon exerciseNumber={15} />,
+	},
+	{
+		title: 'Testing',
+		implementation: <Testing />,
 	},
 ];
 

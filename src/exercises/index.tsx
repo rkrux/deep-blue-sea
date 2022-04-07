@@ -6,9 +6,10 @@ import Five from './5';
 import Six from './6';
 import Seven from './7';
 import Eight from './8';
+import Testing from './testing';
 
 const ComingSoon = ({ exerciseNumber }: { exerciseNumber: number }) => (
 	<div>{`Coming soon ${exerciseNumber}`}</div>
 );
 
-export { One, Two, Three, Four, Five, Six, Seven, Eight, ComingSoon };
+export { One, Two, Three, Four, Five, Six, Seven, Eight, Testing, ComingSoon };
