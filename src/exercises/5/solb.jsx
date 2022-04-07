@@ -164,7 +164,7 @@ function CharacterForm() {
 			</button>
 
 			{isInputValid(characterDetails.characterNumber) &&
-				(!!cache[characterDetails.characterNumber] ? (
+				(cache[characterDetails.characterNumber] ? (
 					<>This item is in cache.</>
 				) : (
 					<>This item is not in cache.</>
@@ -291,6 +291,3 @@ function Solb() {
 }
 
 export default Solb;
-
-//Issues:
-// In random selection, loading state doesn't appear, instead ??? is shown.
