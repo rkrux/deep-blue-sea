@@ -3,14 +3,9 @@ import {
 	useContext,
 	useEffect,
 	useReducer,
-	useCallback,
+	useState,
 } from 'react';
-import {
-	CharacterInputProvider,
-	useCharacterInput,
-	fetchCharacterFromAPI,
-	isInputValid,
-} from '.';
+import { fetchCharacterFromAPI, isInputValid } from '.';
 
 const CacheContext = createContext();
 function cacheReducer(currentCache, action) {
@@ -97,6 +92,7 @@ function characterReducer(currentCharacter, action) {
 	}
 }
 function CharacterProvider({ children }) {
+	const [characterNumber, setCharacterNumber] = useState();
 	const [characterDetails, dispatch] = useReducer(characterReducer, {
 		character: undefined,
 		isLoading: false,
@@ -104,35 +100,23 @@ function CharacterProvider({ children }) {
 		error: undefined,
 		isInCache: false,
 	});
+
 	console.log('CharacterProvider, characterDetails: ', characterDetails);
 	return (
-		<CharacterContext.Provider value={[characterDetails, dispatch]}>
+		<CharacterContext.Provider
+			value={[characterNumber, setCharacterNumber, characterDetails, dispatch]}
+		>
 			{children}
 		</CharacterContext.Provider>
 	);
 }
-function useCharacter(characterNumber) {
+function useCharacter() {
 	const characterData = useContext(CharacterContext);
 	if (!characterData) {
 		throw new Error("useCharacter can't be used without CharacterProvider");
 	}
-
-	const [characterDetails, characterDispatch] = characterData;
-	const [cache, cacheDispatch] = useCache();
-
-	const fetchCharacter = useCallback(
-		async (input) => {
-			characterDispatch({ type: 'fetchStart' });
-			try {
-				const response = await fetchCharacterFromAPI(input);
-				cacheDispatch({ type: 'add', key: input, value: response });
-				characterDispatch({ type: 'fetchSuccess', payload: response });
-			} catch (error) {
-				characterDispatch({ type: 'fetchFail', payload: error });
-			}
-		},
-		[cacheDispatch, characterDispatch]
-	);
+	const [characterNumber, _, __, characterDispatch] = characterData;
+	const [cache] = useCache();
 
 	useEffect(() => {
 		const itemFromCache = cache[characterNumber];
@@ -143,22 +127,27 @@ function useCharacter(characterNumber) {
 		}
 	}, [characterNumber, cache, characterDispatch]);
 
-	return {
-		character: characterDetails.character,
-		isLoading: characterDetails.isLoading,
-		isError: characterDetails.isError,
-		error: characterDetails.error,
-		isInCache: characterDetails.isInCache,
-		fetchCharacter,
-		removeCharacter: () =>
-			cacheDispatch({ type: 'delete', key: characterNumber }),
-	};
+	return characterData;
 }
+const fetchCharacter = async (characterDispatch, cacheDispatch, input) => {
+	characterDispatch({ type: 'fetchStart' });
+	try {
+		const response = await fetchCharacterFromAPI(input);
+		cacheDispatch({ type: 'add', key: input, value: response });
+		characterDispatch({ type: 'fetchSuccess', payload: response });
+	} catch (error) {
+		characterDispatch({ type: 'fetchFail', payload: error });
+	}
+};
 
 function CharacterForm() {
-	const [characterNumber, setCharacterNumber] = useCharacterInput();
-	const { fetchCharacter, isInCache, ...characterLifecycle } =
-		useCharacter(characterNumber);
+	const [
+		characterNumber,
+		setCharacterNumber,
+		characterDetails,
+		characterDispatch,
+	] = useCharacter();
+	const [_, cacheDispatch] = useCache();
 
 	return (
 		<div>
@@ -168,71 +157,61 @@ function CharacterForm() {
 				onChange={(e) => setCharacterNumber(e.target.value)}
 			/>
 			<button
-				disabled={
-					!isInputValid(characterNumber) || characterLifecycle.isLoading
-				}
+				disabled={!isInputValid(characterNumber) || characterDetails.isLoading}
 				onClick={() => {
-					fetchCharacter(characterNumber);
+					fetchCharacter(characterDispatch, cacheDispatch, characterNumber);
 				}}
 			>
 				Fetch
 			</button>
 			<button
-				disabled={characterLifecycle.isLoading}
+				disabled={characterDetails.isLoading}
 				onClick={() => {
 					const randomNumber = Math.floor(Math.random() * 500);
 					setCharacterNumber(randomNumber);
-					fetchCharacter(randomNumber);
+					fetchCharacter(characterDispatch, cacheDispatch, randomNumber);
 				}}
 			>
 				Random
 			</button>
 
 			{isInputValid(characterNumber) &&
-				(isInCache ? (
+				(characterDetails.isInCache ? (
 					<>This item is in cache.</>
 				) : (
 					<>This item is not in cache.</>
 				))}
 
-			{characterLifecycle.isError && (
-				<>Error in fetching character, try again!</>
-			)}
+			{characterDetails.isError && <>Error in fetching character, try again!</>}
 		</div>
 	);
 }
 
 function CharacterCard() {
-	const [characterNumber, setCharacterNumber] = useCharacterInput();
-	const { isInCache, removeCharacter, ...characterLifecycle } =
-		useCharacter(characterNumber);
+	const [characterNumber, setCharacterNumber, characterDetails] =
+		useCharacter();
+	const [_, cacheDispatch] = useCache();
 
-	console.log(
-		'CharacterCard, characterNumber: ',
-		characterNumber,
-		characterLifecycle
-	);
 	const renderCharacterDetails = () => {
-		// Sanity check
 		if (!isInputValid(characterNumber)) {
 			return <>Start typing!</>;
 		}
 
-		if (characterLifecycle.isLoading) {
+		if (characterDetails.isLoading) {
 			return <>Loading character..</>;
 		}
-		if (characterLifecycle.isError) {
-			return <>Error: {characterLifecycle.error}</>;
+		if (characterDetails.isError) {
+			return <>Error: {characterDetails.error}</>;
 		}
-		if (!isInCache) {
+		if (!characterDetails.isInCache) {
 			return <>???</>;
 		}
 		return (
 			<>
-				<p>{`Character: ${characterLifecycle.character.characterNumber}, ${characterLifecycle.character.characterId}`}</p>
+				<p>{`Character: ${characterDetails.character.characterNumber}, ${characterDetails.character.characterId}`}</p>
 				<button
 					onClick={() => {
-						removeCharacter();
+						cacheDispatch({ type: 'delete', key: characterNumber });
 						setCharacterNumber();
 					}}
 				>
@@ -250,7 +229,7 @@ function CharacterCard() {
 }
 
 function CharactersCacheView() {
-	const [characterNumber, setCharacterNumber] = useCharacterInput();
+	const [characterNumber, setCharacterNumber] = useCharacter();
 	const [cache, dispatch] = useCache();
 
 	const allCachedCharacters = Object.values(cache);
@@ -290,13 +269,11 @@ function CharactersCacheView() {
 function Solb() {
 	return (
 		<CacheProvider>
-			<CharacterInputProvider>
-				<CharacterProvider>
-					<CharacterForm />
-					<CharacterCard />
-					<CharactersCacheView />
-				</CharacterProvider>
-			</CharacterInputProvider>
+			<CharacterProvider>
+				<CharacterForm />
+				<CharacterCard />
+				<CharactersCacheView />
+			</CharacterProvider>
 		</CacheProvider>
 	);
 }
