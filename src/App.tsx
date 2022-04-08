@@ -10,7 +10,10 @@ import {
 	Seven,
 	ComingSoon,
 	Eight,
+	Nine,
+	Ten,
 	Testing,
+	Eleven,
 } from './exercises';
 import './App.css';
 
@@ -66,16 +69,16 @@ const exerciseConfigs: ExerciseConfig[] = [
 	},
 	{
 		title: 'Designing flexible compound accordion components',
-		implementation: <ComingSoon exerciseNumber={9} />,
+		implementation: <Nine />,
 	},
 	{
 		title: 'Prop Collections and useAnimatedCounter',
-		implementation: <ComingSoon exerciseNumber={10} />,
+		implementation: <Ten />,
 	},
 	{
 		title:
 			'Add additional functionality to useAnimatedCounter with Prop Getters',
-		implementation: <ComingSoon exerciseNumber={11} />,
+		implementation: <Eleven />,
 	},
 	{
 		title:
@@ -101,7 +104,7 @@ const exerciseConfigs: ExerciseConfig[] = [
 ];
 
 function App() {
-	const [exerciseNumber, setExerciseNumber] = useState<Exercise>(4);
+	const [exerciseNumber, setExerciseNumber] = useState<Exercise>(10);
 	return (
 		// Provide the client to your App
 		<QueryClientProvider client={queryClient}>
