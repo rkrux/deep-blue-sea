@@ -12,8 +12,11 @@ import {
 	Eight,
 	Nine,
 	Ten,
-	Testing,
 	Eleven,
+	Twelve,
+	Thirteen,
+	Fourteen,
+	Testing,
 } from './exercises';
 import './App.css';
 
@@ -83,7 +86,7 @@ const exerciseConfigs: ExerciseConfig[] = [
 	{
 		title:
 			"The State Reducer Pattern to modify an accordion component's default behavior",
-		implementation: <ComingSoon exerciseNumber={12} />,
+		implementation: <Twelve />,
 	},
 	{
 		title: 'Understanding control props with a simple button component',
@@ -104,7 +107,7 @@ const exerciseConfigs: ExerciseConfig[] = [
 ];
 
 function App() {
-	const [exerciseNumber, setExerciseNumber] = useState<Exercise>(10);
+	const [exerciseNumber, setExerciseNumber] = useState<Exercise>(11);
 	return (
 		// Provide the client to your App
 		<QueryClientProvider client={queryClient}>

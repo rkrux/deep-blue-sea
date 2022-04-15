@@ -9,7 +9,10 @@ import Eight from './8';
 import Nine from './9';
 import Ten from './10';
 import Eleven from './11';
+import Twelve from './12';
 import Testing from './testing';
+import Thirteen from './13';
+import Fourteen from './14';
 
 const ComingSoon = ({ exerciseNumber }: { exerciseNumber: number }) => (
 	<div>{`Coming soon ${exerciseNumber}`}</div>
@@ -27,6 +30,9 @@ export {
 	Nine,
 	Ten,
 	Eleven,
+	Twelve,
+	Thirteen,
+	Fourteen,
 	Testing,
 	ComingSoon,
 };
