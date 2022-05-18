@@ -216,7 +216,7 @@ function CharacterCard() {
 	};
 
 	return (
-		<div style={{ border: '1px solid', borderColor: 'greenyellow' }}>
+		<div style={{ border: '1px solid', borderColor: 'indianred' }}>
 			{renderCharacterDetails()}
 		</div>
 	);

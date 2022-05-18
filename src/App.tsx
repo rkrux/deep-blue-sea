@@ -91,7 +91,11 @@ function App() {
 			<div className="basic">
 				<ol>
 					{exerciseConfigs.map((config, index) => (
-						<li key={config.title} onClick={() => setExerciseNumber(index)}>
+						<li
+							key={config.title}
+							onClick={() => setExerciseNumber(index)}
+							className={exerciseNumber === index ? 'selected' : 'unselected'}
+						>
 							{config.title}
 						</li>
 					))}

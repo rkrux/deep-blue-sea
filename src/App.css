@@ -14,3 +14,8 @@ li:hover {
 	background-color: burlywood;
 	text-decoration: underline;
 }
+
+.selected {
+	background-color: lightgreen;
+	text-decoration: underline;
+}
