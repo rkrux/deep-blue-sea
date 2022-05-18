@@ -53,8 +53,7 @@ const exerciseConfigs: ExerciseConfig[] = [
 		implementation: <Five />,
 	},
 	{
-		title:
-			'Exposing properties to the parent with a scrollable component using forwardRef and useImperativeHandle',
+		title: 'Exposing properties to the parent with a scrollable component',
 		implementation: <Six />,
 	},
 	{
@@ -78,7 +77,7 @@ const exerciseConfigs: ExerciseConfig[] = [
 		implementation: <Eleven />,
 	},
 	{
-		title: "State Reducer Pattern to modify an accordion component's behavior",
+		title: 'Accordion with user controlled configuration',
 		implementation: <Twelve />,
 	},
 ];
