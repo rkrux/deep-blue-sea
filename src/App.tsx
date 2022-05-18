@@ -8,15 +8,11 @@ import {
 	Five,
 	Six,
 	Seven,
-	ComingSoon,
 	Eight,
 	Nine,
 	Ten,
 	Eleven,
 	Twelve,
-	Thirteen,
-	Fourteen,
-	Testing,
 } from './exercises';
 import './App.css';
 
@@ -37,23 +33,23 @@ type ExerciseConfig = {
 
 const exerciseConfigs: ExerciseConfig[] = [
 	{
-		title: 'TicTacToe and avoiding state management complexity',
+		title: 'TicTacToe',
 		implementation: <One />,
 	},
 	{
-		title: 'Vanilla Tilt, direct DOM access and Memory Leaks',
+		title: 'Vanilla Tilt',
 		implementation: <Two />,
 	},
 	{
-		title: 'Fetching Pokemons and error boundaries',
+		title: 'Pokemons and error boundaries',
 		implementation: <Three />,
 	},
 	{
-		title: 'Safely fetch Rick and Morty Characters handling Async operations',
+		title: 'Fetch R&M Characters',
 		implementation: <Four />,
 	},
 	{
-		title: 'Simple fetch-and-cache pattern with Rick and Morty Characters',
+		title: 'fetch-and-cache pattern with R&M Characters',
 		implementation: <Five />,
 	},
 	{
@@ -62,47 +58,28 @@ const exerciseConfigs: ExerciseConfig[] = [
 		implementation: <Six />,
 	},
 	{
-		title:
-			"Showing Big Head Avatars and debugging detecting user's screen sizes with useDebugValue",
+		title: "Debugging detecting user's screen sizes with useDebugValue",
 		implementation: <Seven />,
 	},
 	{
-		title: 'User Update forms and the context modules function pattern',
+		title: 'User Update forms',
 		implementation: <Eight />,
 	},
 	{
-		title: 'Designing flexible compound accordion components',
+		title: 'Flexible compound accordion components',
 		implementation: <Nine />,
 	},
 	{
-		title: 'Prop Collections and useAnimatedCounter',
+		title: 'Prop Collections',
 		implementation: <Ten />,
 	},
 	{
-		title:
-			'Add additional functionality to useAnimatedCounter with Prop Getters',
+		title: 'Add additional functionality with Prop Getters',
 		implementation: <Eleven />,
 	},
 	{
-		title:
-			"The State Reducer Pattern to modify an accordion component's default behavior",
+		title: "State Reducer Pattern to modify an accordion component's behavior",
 		implementation: <Twelve />,
-	},
-	{
-		title: 'Understanding control props with a simple button component',
-		implementation: <ComingSoon exerciseNumber={13} />,
-	},
-	{
-		title: 'Creating a controllable Rating component',
-		implementation: <ComingSoon exerciseNumber={14} />,
-	},
-	{
-		title: 'Optimized rendering of large lists of items with React-Virtual',
-		implementation: <ComingSoon exerciseNumber={15} />,
-	},
-	{
-		title: 'Testing',
-		implementation: <Testing />,
 	},
 ];
 
@@ -112,7 +89,6 @@ function App() {
 		// Provide the client to your App
 		<QueryClientProvider client={queryClient}>
 			<div className="basic">
-				<header>Exercises</header>
 				<ol>
 					{exerciseConfigs.map((config, index) => (
 						<li key={config.title} onClick={() => setExerciseNumber(index)}>

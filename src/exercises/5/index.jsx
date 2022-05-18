@@ -28,7 +28,6 @@ export const characterLifecycleInitialState = {
 export const CharacterInputContext = createContext();
 export function CharacterInputProvider({ children }) {
 	const [characterNumber, setCharacterNumber] = useState();
-	console.log('CharacterInputProvider, characterNumber: ', characterNumber);
 	return (
 		<CharacterInputContext.Provider
 			value={[characterNumber, setCharacterNumber]}
@@ -39,7 +38,6 @@ export function CharacterInputProvider({ children }) {
 }
 export function useCharacterInput() {
 	const characterInput = useContext(CharacterInputContext);
-	// console.log('useCharacterInput, characterNumber: ', characterInput[0]);
 	if (!characterInput) {
 		throw new Error(
 			"useCharacterInput can't be used without the CharacterInputProvider"

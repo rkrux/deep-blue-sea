@@ -105,7 +105,6 @@ function UserForm({
 }
 
 function UserId({ asyncFunctionResult }) {
-	console.log('UserId => ', 'asyncFunctionResult: ', asyncFunctionResult);
 	if (asyncFunctionResult.isLoading) {
 		return <p>Id: Loading...</p>;
 	}

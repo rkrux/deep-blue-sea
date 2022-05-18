@@ -85,7 +85,6 @@ function CharacterProvider({ children }) {
 		error: undefined,
 	});
 
-	console.log('CharacterProvider, characterDetails: ', characterDetails);
 	return (
 		<CharacterContext.Provider value={[characterDetails, dispatch]}>
 			{children}
