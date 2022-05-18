@@ -13,24 +13,6 @@ const accordionData = Array.from({ length: 10 }, (_, index) => {
 		data: Math.floor(Math.random() * 1000),
 	};
 });
-/*
-const AccordContext = createContext();
-function AccordProvider({ children }) {
-	const [itemOpened, setItemOpened] = useState();
-	return (
-		<AccordContext.Provider value={[itemOpened, setItemOpened]}>
-			{children}
-		</AccordContext.Provider>
-	);
-}
-function useAccordContext() {
-	const accordContext = useContext(AccordContext);
-	if (!accordContext) {
-		throw new Error('useAccordContext unable to be used w/o AccordProvider');
-	}
-	return accordContext;
-}
-*/
 
 const AccordItemContext = createContext();
 function AccordItemProvider({ children, index }) {
@@ -179,7 +161,6 @@ function Accordion({ useOtherAccordion }) {
 
 	return (
 		<Accord>
-			{/* <div>Cause error</div> */}
 			{accordionData.map((value, index) => {
 				return (
 					<AccordItem style={{ margin: '10px' }}>
