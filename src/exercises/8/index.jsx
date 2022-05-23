@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
-// import { isEqual } from 'lodash';
+import { useEffect, useReducer, useState } from 'react';
 
 function asyncFn(requestData) {
   const randomId = Math.floor(Math.random() * 2000);
@@ -8,7 +7,7 @@ function asyncFn(requestData) {
       if (randomId < 1600) {
         resolve({ id: randomId, ...requestData });
       } else {
-        reject(`API rejected request for some untold reason: ${randomId}`);
+        reject(`API rejected request for some reason: ${randomId}`);
       }
     }, randomId);
   });
