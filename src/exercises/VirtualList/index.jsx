@@ -13,10 +13,8 @@ const OBSERVER_OPTIONS = {
   rootMargin: '0px',
   threshold: 0,
 };
-const LIST_LIMIT = 50;
-const BUFFER = 10;
+
 const TIME_MS = 1500;
-const ELEMENT_HEIGHT_PX = 50;
 
 function useIntersectionObserver(
   elementRef,
@@ -45,22 +43,30 @@ function useIntersectionObserver(
   }, deps);
 }
 
-const VirtualList = () => {
-  const [list, setList] = useState(allData.slice(0, LIST_LIMIT));
+const VirtualList = ({ boxHeight, elementHeight, bufferElementsCount }) => {
+  const displayedElementsCount = boxHeight / elementHeight;
+  const [list, setList] = useState(
+    allData.slice(
+      0,
+      bufferElementsCount + displayedElementsCount + bufferElementsCount
+    )
+  );
   const cursorRef = useRef({
     start: 0,
-    end: LIST_LIMIT,
+    end: bufferElementsCount + displayedElementsCount + bufferElementsCount,
     topOrBottom: 'bottom',
   });
   const listRef = useRef(null);
 
   useIntersectionObserver(listRef, [list], 'bottom', (entry) => {
     if (entry.isIntersecting) {
-      const newListEnd = cursorRef.current.end + LIST_LIMIT;
-      const newList = allData.slice(
-        Math.max(0, cursorRef.current.end - BUFFER),
-        newListEnd
+      const newListStart = Math.max(
+        0,
+        cursorRef.current.end - bufferElementsCount
       );
+      const newListEnd =
+        cursorRef.current.end + displayedElementsCount + bufferElementsCount;
+      const newList = allData.slice(newListStart, newListEnd);
       if (newList.length === 0) {
         return;
       }
@@ -68,7 +74,7 @@ const VirtualList = () => {
       setTimeout(() => {
         setList(newList);
         cursorRef.current = {
-          start: cursorRef.current.end,
+          start: newListStart,
           end: newListEnd,
           topOrBottom: 'bottom',
         };
@@ -78,11 +84,13 @@ const VirtualList = () => {
 
   useIntersectionObserver(listRef, [list], 'top', (entry) => {
     if (entry.isIntersecting) {
-      const newListStart = cursorRef.current.start - LIST_LIMIT;
-      const newList = allData.slice(
-        newListStart,
-        Math.min(cursorRef.current.start + BUFFER, allData.length)
+      const newListStart =
+        cursorRef.current.start - displayedElementsCount - bufferElementsCount;
+      const newListEnd = Math.min(
+        cursorRef.current.start + bufferElementsCount,
+        allData.length
       );
+      const newList = allData.slice(newListStart, newListEnd);
       if (newList.length === 0) {
         return;
       }
@@ -91,7 +99,7 @@ const VirtualList = () => {
         setList(newList);
         cursorRef.current = {
           start: newListStart,
-          end: cursorRef.current.start,
+          end: newListEnd,
           topOrBottom: 'top',
         };
       }, TIME_MS);
@@ -101,9 +109,9 @@ const VirtualList = () => {
   useEffect(() => {
     console.log('cursorRef: ', cursorRef.current);
     if (cursorRef.current.topOrBottom === 'bottom') {
-      listRef.current.scrollTo(0, BUFFER * ELEMENT_HEIGHT_PX);
+      listRef.current.scrollTo(0, bufferElementsCount * elementHeight);
     } else {
-      listRef.current.scrollTo(0, (LIST_LIMIT - BUFFER) * ELEMENT_HEIGHT_PX);
+      listRef.current.scrollTo(0, bufferElementsCount * elementHeight);
     }
   }, [list]);
 
@@ -112,7 +120,7 @@ const VirtualList = () => {
       VirtualList
       <div
         style={{
-          height: '300px',
+          height: `${boxHeight}px`,
           width: '350px',
           padding: '15px',
           border: '1px solid black',
@@ -128,7 +136,7 @@ const VirtualList = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 borderBottom: '1px solid brown',
-                height: `${ELEMENT_HEIGHT_PX}px`,
+                height: `${elementHeight}px`,
               }}
               key={row.id}
             >
@@ -143,4 +151,10 @@ const VirtualList = () => {
   );
 };
 
-export default VirtualList;
+const VirtualListWrapper = () => {
+  return (
+    <VirtualList boxHeight={300} elementHeight={30} bufferElementsCount={5} />
+  );
+};
+
+export default VirtualListWrapper;
