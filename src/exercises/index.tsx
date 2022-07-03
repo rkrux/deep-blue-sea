@@ -10,25 +10,27 @@ import Nine from './9';
 import Ten from './10';
 import Eleven from './11';
 import Twelve from './12';
+import VirtualList from './VirtualList';
 import Testing from './testing';
 
 const ComingSoon = ({ exerciseNumber }: { exerciseNumber: number }) => (
-	<div>{`Coming soon ${exerciseNumber}`}</div>
+  <div>{`Coming soon ${exerciseNumber}`}</div>
 );
 
 export {
-	One,
-	Two,
-	Three,
-	Four,
-	Five,
-	Six,
-	Seven,
-	Eight,
-	Nine,
-	Ten,
-	Eleven,
-	Twelve,
-	Testing,
-	ComingSoon,
+  One,
+  Two,
+  Three,
+  Four,
+  Five,
+  Six,
+  Seven,
+  Eight,
+  Nine,
+  Ten,
+  Eleven,
+  Twelve,
+  VirtualList,
+  Testing,
+  ComingSoon,
 };

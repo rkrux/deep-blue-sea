@@ -13,6 +13,7 @@ import {
   Ten,
   Eleven,
   Twelve,
+  VirtualList,
 } from './exercises';
 import './App.css';
 
@@ -80,10 +81,14 @@ const exerciseConfigs: ExerciseConfig[] = [
     title: 'Accordion with user controlled configuration',
     implementation: <Twelve />,
   },
+  {
+    title: 'Virtual List',
+    implementation: <VirtualList />,
+  },
 ];
 
 function App() {
-  const [exerciseNumber, setExerciseNumber] = useState<Exercise>(11);
+  const [exerciseNumber, setExerciseNumber] = useState<Exercise>(12);
   return (
     // Provide the client to your App
     <QueryClientProvider client={queryClient}>
