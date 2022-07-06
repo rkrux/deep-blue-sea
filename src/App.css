@@ -1,21 +1,29 @@
 .basic {
-	margin: 20px;
+  margin: 20px;
+}
+
+#exerciseIndex {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid cornflowerblue;
+  border-radius: 10px;
+}
+
+#exerciseHeading {
+  width: 300px;
+  padding: 4px;
+  cursor: pointer;
+}
+#exerciseHeading:hover {
+  background-color: burlywood;
+  text-decoration: underline;
 }
 
 .App {
-	text-align: center;
-}
-
-li {
-	cursor: pointer;
-}
-
-li:hover {
-	background-color: burlywood;
-	text-decoration: underline;
+  text-align: center;
 }
 
 .selected {
-	background-color: lightgreen;
-	text-decoration: underline;
+  background-color: lightgreen;
+  text-decoration: underline;
 }

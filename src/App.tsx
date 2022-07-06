@@ -94,21 +94,32 @@ const exerciseConfigs: ExerciseConfig[] = [
 
 function App() {
   const [exerciseNumber, setExerciseNumber] = useState<Exercise>(13);
+  const [showIndex, setShowIndex] = useState(true);
+
   return (
     // Provide the client to your App
     <QueryClientProvider client={queryClient}>
       <div className="basic">
-        <ol>
-          {exerciseConfigs.map((config, index) => (
-            <li
-              key={config.title}
-              onClick={() => setExerciseNumber(index)}
-              className={exerciseNumber === index ? 'selected' : 'unselected'}
-            >
-              {config.title}
-            </li>
-          ))}
-        </ol>
+        <button
+          onClick={() => setShowIndex(!showIndex)}
+          style={{ margin: '5px' }}
+        >
+          {showIndex ? 'Hide' : 'Show'} Exercise Index
+        </button>
+        {showIndex && (
+          <div id="exerciseIndex">
+            {exerciseConfigs.map((config, index) => (
+              <div
+                key={config.title}
+                id="exerciseHeading"
+                onClick={() => setExerciseNumber(index)}
+                className={exerciseNumber === index ? 'selected' : 'unselected'}
+              >
+                {index + 1}. {config.title}
+              </div>
+            ))}
+          </div>
+        )}
         <hr />
         <div>{exerciseConfigs[exerciseNumber].implementation}</div>
       </div>
