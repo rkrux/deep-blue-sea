@@ -11,6 +11,7 @@ import Ten from './10';
 import Eleven from './11';
 import Twelve from './12';
 import VirtualList from './VirtualList';
+import ToDo from './ToDo';
 import Testing from './testing';
 
 const ComingSoon = ({ exerciseNumber }: { exerciseNumber: number }) => (
@@ -31,6 +32,7 @@ export {
   Eleven,
   Twelve,
   VirtualList,
+  ToDo,
   Testing,
   ComingSoon,
 };

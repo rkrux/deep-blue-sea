@@ -14,6 +14,7 @@ import {
   Eleven,
   Twelve,
   VirtualList,
+  ToDo,
 } from './exercises';
 import './App.css';
 
@@ -85,10 +86,14 @@ const exerciseConfigs: ExerciseConfig[] = [
     title: 'Virtual List',
     implementation: <VirtualList />,
   },
+  {
+    title: 'ToDo App',
+    implementation: <ToDo />,
+  },
 ];
 
 function App() {
-  const [exerciseNumber, setExerciseNumber] = useState<Exercise>(12);
+  const [exerciseNumber, setExerciseNumber] = useState<Exercise>(13);
   return (
     // Provide the client to your App
     <QueryClientProvider client={queryClient}>
